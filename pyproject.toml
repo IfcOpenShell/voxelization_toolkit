@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "voxec"
-version = "0.4.0"
+version = "[VERSION]"
 authors = [
   { name="Thomas Krijnen", email="thomas@aecgeeks.com" },
 ]

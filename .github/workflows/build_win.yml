@@ -1,9 +1,6 @@
 name: Build Voxelization Toolkit Windows
 
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
 
 jobs:
@@ -99,7 +96,7 @@ jobs:
 
       - name: Package .zip Archives
         run: |
-          $SHA = ${env:GITHUB_SHA}.Substring(0, 7)
+          $VERSION = Get-Content VERSION -Raw
           $pyVersion = "${{ matrix.python }}"
           $pyVersionMajor = ($pyVersion -split '\.')[0..1] -join ''
           $OUTPUT_DIR = "$env:GITHUB_WORKSPACE\package"
@@ -109,10 +106,11 @@ jobs:
 
           cp -r C:\Python\${{ matrix.python }}\Lib\site-packages\voxec .
           cp $env:GITHUB_WORKSPACE\pyproject.toml .
+          (Get-Content pyproject.toml).Replace('[VERSION]', $VERSION) | Set-Content pyproject.toml
 
           C:\Python\${{ matrix.python }}\python.exe -m pip install build
           C:\Python\${{ matrix.python }}\python.exe -m build -w
-          mv .\dist\voxec-0.4.0-py3-none-any.whl .\dist\voxec-0.4.0-py${pyVersionMajor}-none-win_amd64.whl
+          mv .\dist\voxec-${VERSION}-py3-none-any.whl .\dist\voxec-${VERSION}-py${pyVersionMajor}-none-win_amd64.whl
 
       - name: Publish a Python distribution to PyPI
         uses: ortega2247/pypi-upload-action@master

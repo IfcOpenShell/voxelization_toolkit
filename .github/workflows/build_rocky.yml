@@ -1,9 +1,6 @@
 name: Build Voxelization Toolkit Linux
 
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
 
 jobs:
@@ -88,15 +85,17 @@ jobs:
 
       - name: Package .zip archives
         run: |
+          VERSION=`cat VERSION`
           base=$GITHUB_WORKSPACE/IfcOpenShell/build/Linux/x86_64/install
           mkdir -p $GITHUB_WORKSPACE/package
           cd $GITHUB_WORKSPACE/package
           cp $GITHUB_WORKSPACE/pyproject.toml .
+          sed -i s/.VERSION./$VERSION/g pyproject.toml
 
           for python_root in $base/python-*; do
             PATH=$python_root/bin:$PATH python3 -m pip install --upgrade pip setuptools wheel
             PATH=$python_root/bin:$PATH python3 -m pip install build auditwheel patchelf
-`
+
             mm=`$python_root/bin/python3 --version | cut -c8- | cut -d. -f 1,2 | tr -d '.'`
             mdm=`$python_root/bin/python3 --version | cut -c8- | cut -d. -f 1,2`
             cp -R $python_root/lib/python$mdm/site-packages/voxec .

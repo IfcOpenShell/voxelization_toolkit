@@ -1,9 +1,6 @@
 name: Build Voxelization Toolkit OSX
 
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
 
 jobs:
@@ -120,10 +117,12 @@ jobs:
 
       - name: Package .zip archives
         run: |
+          VERSION=`cat VERSION`
           base=$(find $PWD/IfcOpenShell/build -maxdepth 4 -name install)
           mkdir -p $GITHUB_WORKSPACE/package
           cd $GITHUB_WORKSPACE/package
           cp $GITHUB_WORKSPACE/pyproject.toml .
+          sed -i s/.VERSION./$VERSION/g pyproject.toml
 
           for python_root in $base/python-*; do
             PATH=$python_root/bin:$PATH python3 -m pip install --upgrade pip setuptools wheel
@@ -137,7 +136,7 @@ jobs:
 
             PATH=$python_root/bin:$PATH python3 -m build -w
             PATH=$python_root/bin:$PATH delocate-wheel dist/*.whl -w audited
-            mv audited/voxec-0.4.0-cp$mm-none-any.whl audited/voxec-0.4.0-cp$mm-none-macosx_${{ matrix.macosx_ver }}_${{ matrix.cpuarch }}.whl
+            mv audited/voxec-$VERSION-cp$mm-none-any.whl audited/voxec-$VERSION-cp$mm-none-macosx_${{ matrix.macosx_ver }}_${{ matrix.cpuarch }}.whl
 
             rm -r voxec dist/*.whl
           done
