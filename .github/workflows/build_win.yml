@@ -96,7 +96,7 @@ jobs:
 
       - name: Package .zip Archives
         run: |
-          $VERSION = Get-Content VERSION -Raw
+          $VERSION = Get-Content VVERSION -Raw
           $pyVersion = "${{ matrix.python }}"
           $pyVersionMajor = ($pyVersion -split '\.')[0..1] -join ''
           $OUTPUT_DIR = "$env:GITHUB_WORKSPACE\package"

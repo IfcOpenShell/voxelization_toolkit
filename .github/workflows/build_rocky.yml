@@ -85,7 +85,7 @@ jobs:
 
       - name: Package .zip archives
         run: |
-          VERSION=`cat VERSION`
+          VERSION=`cat VVERSION`
           base=$GITHUB_WORKSPACE/IfcOpenShell/build/Linux/x86_64/install
           mkdir -p $GITHUB_WORKSPACE/package
           cd $GITHUB_WORKSPACE/package
@@ -100,7 +100,7 @@ jobs:
             mdm=`$python_root/bin/python3 --version | cut -c8- | cut -d. -f 1,2`
             cp -R $python_root/lib/python$mdm/site-packages/voxec .
             echo '[bdist_wheel]' > setup.cfg
-            echo 'python-tag = cp$mm' >> setup.cfg
+            echo 'python-tag = cp'$mm >> setup.cfg
 
             PATH=$python_root/bin:$PATH python3 -m build -w
             PATH=$python_root/bin:$PATH python3 -m auditwheel repair --plat manylinux_2_28_x86_64 dist/*.whl -w audited

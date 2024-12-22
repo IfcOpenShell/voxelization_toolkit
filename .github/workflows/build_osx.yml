@@ -117,7 +117,7 @@ jobs:
 
       - name: Package .zip archives
         run: |
-          VERSION=`cat VERSION`
+          VERSION=`cat VVERSION`
           base=$(find $PWD/IfcOpenShell/build -maxdepth 4 -name install)
           mkdir -p $GITHUB_WORKSPACE/package
           cd $GITHUB_WORKSPACE/package
