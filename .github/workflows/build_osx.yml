@@ -122,7 +122,7 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/package
           cd $GITHUB_WORKSPACE/package
           cp $GITHUB_WORKSPACE/pyproject.toml .
-          sed -i s/.VERSION./$VERSION/g pyproject.toml
+          sed -i~ s/.VERSION./$VERSION/g pyproject.toml
 
           for python_root in $base/python-*; do
             PATH=$python_root/bin:$PATH python3 -m pip install --upgrade pip setuptools wheel
