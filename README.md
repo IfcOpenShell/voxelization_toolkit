@@ -77,8 +77,8 @@ conda install -c ifcopenshell voxelization_toolkit
   statement:
     text: slabs = create_geometry(file,include={"IfcSlab"})
 ```
-4. Now add a line:
-  `export_point_cloud(outmost_voxels, "outmost_voxels.obj")`
+4. Now add a line in `voxelfile.txt`:
+  `export_point_cloud(outmost_voxels, "outmost_voxels.obj")` (ensure the file ends with a newline)
 5. and rerun voxec.
 6. The exported file can now be visualized for example in Blender.
 
